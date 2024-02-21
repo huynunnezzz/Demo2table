@@ -1,0 +1,53 @@
+<%- include('../layout/head.ejs',{title:"Dashboard"}) %>
+<%- include('../layout/header.ejs') %>
+<%- include('../layout/sidebar.ejs') %>
+
+<div class="col-sm-9 col-sm-offset-3 col-lg-10 col-lg-offset-2 main">
+    <div class="row">
+        <ol class="breadcrumb">
+            <li><a href="/admin/dashboard"><svg class="glyph stroked home">
+                        <use xlink:href="#stroked-home"></use>
+                    </svg></a></li>
+            <li><a href="/admin/users">Quản lý thành viên</a></li>
+            <li class="active">Sửa thành viên</li>
+        </ol>
+    </div><!--/.row-->
+
+    <div class="row">
+        <div class="col-lg-12">
+            <h1 class="page-header">Sửa thành viên</h1>
+        </div>
+    </div><!--/.row-->
+    <form role="form" action="/admin/users/edit/<%= user._id %>" method="post">
+     
+       <div class="container">
+        <div class="form-group">
+            <input class="form-control" placeholder="E-mail"  name="email" type="email"
+                autofocus="" value="<%= user.email %>"/>
+        </div>
+        <div class="form-group">
+            <input class="form-control" placeholder="Password" name="password"
+                type="password" value="<%= user.password %>" />
+        </div>
+        <div class="form-group">
+            <input class="form-control" placeholder="Repassword" name="repassword"
+                type="password" value="<%= user.password %>" />
+        </div>
+        <div class="form-group">
+            <input class="form-control" placeholder="Role" name="role"
+                type="text" value="<%= user.role %>" />
+        </div>
+        <div class="form-group">
+            <input class="form-control" placeholder="Full_name" name="full_name"
+                type="text" value="<%= user.full_name %>" />
+        </div>
+        <button type="submit" class="btn btn-primary">Edit</button>
+        <a name="" id="" class="btn btn-primary" href="/admin/users" role="button">Quay lại</a>
+       </div>
+      
+    </form>
+
+</div>
+
+
+<%- include('../layout/footer.ejs') %>
