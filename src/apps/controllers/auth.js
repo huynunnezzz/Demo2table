@@ -1,26 +1,27 @@
-const usersModel = require('../models/user');
+const adminModel = require('../models/admin');
 
 const getLogin = (req, res) => {
     res.render("admin/login", { data: {} });
 }
 const postLogin = async (req, res) => {
-    const { email, password } = req.body;
+    const { account, password } = req.body;
     let error = null;
-    const users = await usersModel.find({
-        email: email,
+    const admin = await adminModel.find({
+        account: account,
         password: password
     })
-    if (email == "" || password == "") {
+    if (account == "" || password == "") {
         error = "Yêu cầu nhập đầy đủ thông tin!"
     }
-    else if (users.length > 0) {
-        req.session.email = email;
+    else if (admin.length > 0) {
+        req.session.account = account;
         req.session.password = password;
         res.redirect("/admin/dashboard");
     } else {
         error = "Tài khoản không hợp lệ";
     }
-    res.render("admin/login", { data: { error } });
+    const adminlogin = await adminModel.find();
+    res.render("admin/login", { data: { error ,adminlogin} });
 }
 
 
@@ -30,13 +31,13 @@ const getRegester = (req, res) => {
 
 const postRegester = async (req, res) => {
     checkadd = false;
-    const { email, password, repassword, role, full_name } = req.body;
-    const checkemail = await usersModel.find({
-        email:email
+    const { account, password, repassword, role, full_name } = req.body;
+    const checkemail = await adminModel.find({
+        account:account
     })
     let error = null;
     let success = null;
-    if (email == "" || password == "" || role == "" || full_name == "") {
+    if (account == "" || password == "" || role == "" || full_name == "") {
         error = "Yêu cầu nhập đầy đủ thông tin!";
     }
     else if(checkemail.length > 0) {
@@ -46,8 +47,8 @@ const postRegester = async (req, res) => {
         error = "Mật khẩu không trùng khớp";
     }
     else{
-        const data = new usersModel({
-            email: email,
+        await new adminModel({
+            account: email,
             password: password,
             role: role,
             full_name: full_name

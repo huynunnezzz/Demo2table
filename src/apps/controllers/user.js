@@ -1,4 +1,5 @@
 const userModel = require('../models/user');
+const adminModel = require('../models/admin');
 const pagnigation = require('../../common/pagnigation');
 
 const getUser = async (req,res) =>{
@@ -13,6 +14,7 @@ const getUser = async (req,res) =>{
     const hasNext = (page<totalPage) ? true : false;
     const users = await userModel
                         .find()
+                        .populate({path:"cat_id"})
                         .limit(limit)
                         .skip(skip);
     res.render('admin/users/user',{
@@ -26,57 +28,62 @@ const getUser = async (req,res) =>{
 }
 
 const getcreateUser = async (req,res) =>{
-    res.render('admin/users/add_user',{ data: {} });
-    
+    const admin =  await adminModel.find();
+    res.render('admin/users/add_user',{ data: {admin} });
 }
 const postcreateUser = async (req,res) =>{
     checkadd = false;
-    const { email, password, repassword, role, full_name } = req.body;
-    const checkemail = await userModel.find({
-        email:email
+    const admin =  await adminModel.find();
+    const { account, password, repassword, role, fullName,sex,address,phoneNumber,cat_id } = req.body;
+    const checkuser = await userModel.find({
+        account:account
     })
     let error = null;
     let success = null;
-    if (email == "" || password == "" || role == "" || full_name == "") {
+    if (account == "" || password == "" || role == "" || fullName == "" || address == "" || phoneNumber == "") {
         error = "Yêu cầu nhập đầy đủ thông tin!";
     }
-    else if(checkemail.length > 0) {
-        error = "Email đã được đăng ký";
+    else if(checkuser.length > 0) {
+        error = "Tài khoản đã được đăng ký";
     }
     else if(password != repassword){
         error = "Mật khẩu không trùng khớp";
     }
     else{
-        const data = new userModel({
-            email: email,
+        await new userModel({
+            account: account,
             password: password,
+            fullName: fullName,
+            sex:sex,
+            address:address,
+            phoneNumber:phoneNumber,
             role: role,
-            full_name: full_name
+            cat_id:cat_id
         }).save();
         checkadd = true;
         success = "Đăng ký thành công";
     }
-    res.render("admin/users/add_user", { data: { error, success,checkadd}});
+    res.render("admin/users/add_user", { data: { error, success,checkadd,admin}});
 }
-
 
 const geteditUSer = async (req,res) =>{
     const id = req.params.id;
     const user = await userModel.findById(id); 
-    res.render('admin/users/edit_user',{user});
+    const admin = await adminModel.find();
+    res.render('admin/users/edit_user',{data:{user,admin}});
 }
 
-const posteditUSer = async (req,res) =>{
+const updateUser = async (req,res) =>{
     const id = req.params.id;
-    const {email,password,role,full_name} = req.body;
-    const updateUser = {email,password,role,full_name};
+    const {account,password,fullName,sex,address,phoneNumber,role,cat_id} = req.body;
+    const updateUser = {account,password,role,fullName,sex,address,phoneNumber,role,cat_id};
     await userModel.findByIdAndUpdate(id,updateUser).exec();    
     res.redirect('/admin/users');
 }
 
 const delUser = async (req,res) =>{
     const id = req.params.id;
-    await userModel.findByIdAndDelete({_id:id}).exec();
+    await userModel.findByIdAndDelete(id    ).exec();
     res.redirect('/admin/users');
 }
 
@@ -85,6 +92,6 @@ module.exports = {
     getcreateUser,
     postcreateUser,
     geteditUSer,
-    posteditUSer,
+    updateUser,
     delUser
 }

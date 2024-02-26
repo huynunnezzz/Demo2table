@@ -1,12 +1,13 @@
 const checkLogin = (req, res, next) => {
-    if (req.session.email && req.session.password) {
-        return res.redirect('/admin/dashboard');
+    const account = req.session.account;
+    if (req.session.account && req.session.password) {
+        return res.redirect('/admin/dashboard',{account});
     }
     next();
 }
 
 const checkAdmin = (req, res, next) => {
-    if (!req.session.email || !req.session.password) {
+    if (!req.session.account || !req.session.password) {
         return res.redirect('/admin/login');
     }
     next();

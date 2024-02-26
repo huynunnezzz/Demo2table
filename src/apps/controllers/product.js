@@ -95,11 +95,6 @@ const delProduct = async (req,res)=>{
 }
 
 
-
-
-
-
-
 module.exports = {
     getProduct,
     createProduct,
@@ -107,6 +102,4 @@ module.exports = {
     editProduct,
     updateProduct,
     delProduct,
-    
-
 }

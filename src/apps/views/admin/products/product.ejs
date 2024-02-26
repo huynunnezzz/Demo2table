@@ -1,7 +1,8 @@
-<%- include('../layout/head.ejs',{title:"Products"}) %> <%- include('../layout/header.ejs') %> <%-
-      include('../layout/sidebar.ejs') %>
+<%- include('../layout/head.ejs',{title:"Products"}) %>
+<%- include('../layout/header.ejs',{account:"Admin"}) %> 
+<%- include('../layout/sidebar.ejs') %>
       <div class="col-sm-9 col-sm-offset-3 col-lg-10 col-lg-offset-2 main">
-       
+
         <div class="row">
           <ol class="breadcrumb">
             <li>
@@ -20,7 +21,8 @@
           </div>
         </div>
         <!--/.row-->
-        <a name="" id="" class="btn btn-primary" href="/admin/products/create" role="button" style="margin-bottom: 10px;">+ Thêm sản phẩm</a>
+        <a name="" id="" class="btn btn-primary" href="/admin/products/create" role="button"
+          style="margin-bottom: 10px;">+ Thêm sản phẩm</a>
 
         <table class="table">
           <thead>
@@ -60,8 +62,10 @@
                 </td>
 
                 <td>
-                  <a name="" id="" class="btn btn-success" href="/admin/products/edit/<%= item._id %>" role="button">Edit</a>
-                  <a name="" id="" class="btn btn-danger" href="/admin/products/del/<%= item._id %>" role="button">Delete</a>
+                  <a name="" id="" class="btn btn-success" href="/admin/products/edit/<%= item._id %>"
+                    role="button">Edit</a>
+                  <a name="" id="" class="btn btn-danger" href="/admin/products/del/<%= item._id %>"
+                    role="button">Delete</a>
                 </td>
               </tr>
               <% }) %>
@@ -76,24 +80,24 @@
                   <span class="sr-only">Previous</span>
                 </a>
               </li>
-            <% } %>
-            
-            <% for(i of pages){ %>
-                <li class="page-item">
-                  <a class="page-link" href="/admin/products?page=<%=i%>">
-                    <%= i %>
-                  </a>
-                </li>
-            <% } %>
+              <% } %>
 
-            <% if(hasNext){ %>
-              <li class="page-item">
-                <a class="page-link" href="/admin/products?page=<%=next%>" aria-label="Next">
-                  <span aria-hidden="true">&raquo;</span>
-                  <span class="sr-only">Next</span>
-                </a>
-              </li>
-            <% } %>
+                <% for(i of pages){ %>
+                  <li class="page-item">
+                    <a class="page-link" href="/admin/products?page=<%=i%>">
+                      <%= i %>
+                    </a>
+                  </li>
+                  <% } %>
+
+                    <% if(hasNext){ %>
+                      <li class="page-item">
+                        <a class="page-link" href="/admin/products?page=<%=next%>" aria-label="Next">
+                          <span aria-hidden="true">&raquo;</span>
+                          <span class="sr-only">Next</span>
+                        </a>
+                      </li>
+                      <% } %>
           </ul>
         </nav>
       </div>

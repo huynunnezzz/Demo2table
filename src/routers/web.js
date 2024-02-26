@@ -23,12 +23,22 @@ router.get('/admin/logout',AuthMiddleware.checkAdmin,AuthController.getLogout);
 // dashboard
 router.get('/admin/dashboard',AuthMiddleware.checkAdmin,AdminController.dashboard);
 
+//Admin
+router.get('/admin/administrators',AuthMiddleware.checkAdmin,AdminController.getAdministrator);
+router.get('/admin/administrators/create',AuthMiddleware.checkAdmin,AdminController.getCreateAdministrators);
+router.post('/admin/administrators/create-admin',AuthMiddleware.checkAdmin,AdminController.CreateAdministrators);
+router.get('/admin/administrators/edit/:id',AuthMiddleware.checkAdmin,AdminController.getEditAdministrators);
+router.post('/admin/administrators/updateAdministrators/:id',AuthMiddleware.checkAdmin,AdminController.updateAdministrators);
+router.get('/admin/administrators/del/:id',AuthMiddleware.checkAdmin,AdminController.delAdministrators);
+
+
+
 //User
 router.get('/admin/users',AuthMiddleware.checkAdmin,UserController.getUser);
 router.get('/admin/users/create',AuthMiddleware.checkAdmin,UserController.getcreateUser);
-router.post('/admin/users/create',AuthMiddleware.checkAdmin,UserController.postcreateUser);
+router.post('/admin/users/create-user',AuthMiddleware.checkAdmin,UserController.postcreateUser);
 router.get('/admin/users/edit/:id',AuthMiddleware.checkAdmin,UserController.geteditUSer);
-router.post('/admin/users/edit/:id',AuthMiddleware.checkAdmin,UserController.posteditUSer);
+router.post('/admin/users/updateUser/:id',AuthMiddleware.checkAdmin,UserController.updateUser);
 router.get('/admin/users/del/:id',AuthMiddleware.checkAdmin,UserController.delUser);
 
 
